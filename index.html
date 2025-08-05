@@ -1,0 +1,175 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Renita <3 Aptitude Test</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(120deg, #ffdde1, #ee9ca7);
+      color: #333;
+      padding: 30px;
+      animation: fadeIn 1.5s ease-in;
+    }
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+    h1 {
+      text-align: center;
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      color: #d6336c;
+      text-shadow: 1px 1px 2px #fff;
+    }
+    form {
+      background: #fff;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      max-width: 800px;
+      margin: auto;
+      animation: popUp 0.8s ease;
+    }
+    @keyframes popUp {
+      0% { transform: scale(0.9); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .question {
+      margin-bottom: 20px;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 5px;
+    }
+    select {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      width: 100%;
+    }
+    button {
+      background-color: #d6336c;
+      color: #fff;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 10px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      display: block;
+      margin: 30px auto 0;
+    }
+    button:hover {
+      background-color: #c2185b;
+    }
+    #result {
+      margin-top: 30px;
+      padding: 20px;
+      background-color: #ffe9ec;
+      border-left: 5px solid #d6336c;
+      border-radius: 10px;
+      font-size: 1.2em;
+      white-space: pre-line;
+    }
+  </style>
+</head>
+<body>
+  <h1>Renita <3 Aptitude Test</h1>
+  <form id="aptitudeForm">
+    <!-- QUESTIONS PLACEHOLDER -->
+  </form>
+  <div id="result"></div>  <script>
+    const questions = [
+      "How much do you enjoy solving puzzles?",
+      "Do you like drawing or designing things?",
+      "How interested are you in how buildings are made?",
+      "Do you enjoy using technology?",
+      "Do you enjoy helping people solve personal problems?",
+      "Do you find satisfaction in organizing things neatly?",
+      "Do you enjoy explaining concepts to others?",
+      "How fascinated are you by how machines work?",
+      "Do you enjoy coding or think you might?",
+      "Do you love learning new languages (coding or spoken)?",
+      "Do you find it satisfying to finish difficult tasks?",
+      "How do you feel about working with numbers?",
+      "Would you rather work indoors or outdoors?",
+      "Do you like thinking about why people do what they do?",
+      "Do you enjoy planning things?",
+      "Do you like making art or being creative?",
+      "Do you like things to look beautiful or aesthetic?",
+      "Would you enjoy designing a house?",
+      "Do you enjoy editing videos or photos?",
+      "Do you enjoy learning how apps/websites are made?",
+      "Would you enjoy leading a team?",
+      "Do you often give people advice?",
+      "Do you love learning about how the world works?",
+      "Do you enjoy science experiments?",
+      "Do you like solving mysteries or complex ideas?",
+      "Do you enjoy fixing things when they break?",
+      "Do you get excited about the future and innovation?",
+      "Are you comfortable with digital tools like Canva, Photoshop, etc.?",
+      "Do you enjoy writing or journaling your thoughts?",
+      "Do you enjoy creating content (social media, blogs, etc.)?"
+    ];
+
+    const categories = {
+      tech: [3, 7, 8, 9, 19],
+      design: [1, 15, 16, 17, 18],
+      logic: [0, 4, 10, 11, 24],
+      social: [5, 6, 13, 20, 21],
+      science: [2, 22, 23, 25, 26],
+      creative: [14, 27, 28, 29, 12]
+    };
+
+    const emojis = {
+      tech: "💻",
+      design: "🎨",
+      logic: "🧠",
+      social: "🫶",
+      science: "🔬",
+      creative: "✨"
+    };
+
+    const form = document.getElementById("aptitudeForm");
+
+    questions.forEach((q, i) => {
+      const div = document.createElement("div");
+      div.classList.add("question");
+      const label = document.createElement("label");
+      label.innerText = `${i + 1}. ${q}`;
+      const select = document.createElement("select");
+      select.name = `q${i}`;
+      for (let j = 1; j <= 5; j++) {
+        const option = document.createElement("option");
+        option.value = j;
+        option.innerText = j + (j === 1 ? " - Hate it" : j === 5 ? " - Love it" : "");
+        select.appendChild(option);
+      }
+      div.appendChild(label);
+      div.appendChild(select);
+      form.appendChild(div);
+    });
+
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.innerText = "Submit 💘";
+    btn.onclick = () => {
+      const data = new FormData(form);
+      const scores = { tech: 0, design: 0, logic: 0, social: 0, science: 0, creative: 0 };
+      for (const [type, indices] of Object.entries(categories)) {
+        indices.forEach(i => {
+          scores[type] += parseInt(data.get(`q${i}`));
+        });
+      }
+      const resultDiv = document.getElementById("result");
+      const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+      resultDiv.innerText = `💗 Your strongest aptitude is: ${emojis[sorted[0][0]]} ${sorted[0][0].toUpperCase()}
+
+Breakdown:
+${sorted.map(([k, v]) => `${emojis[k]} ${k.toUpperCase()}: ${v} / 25`).join("\n")}`;
+    };
+    form.appendChild(btn);
+  </script></body>
+</html>
